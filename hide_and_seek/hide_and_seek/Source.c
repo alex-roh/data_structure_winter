@@ -28,6 +28,7 @@ int main(void) {
 	board = initialize();
 	printBoard();
 	game_logic();
+	terminate(board);
 	return 0;
 }
 
@@ -67,7 +68,7 @@ node_ptr initialize() {
 	}
 
 	// 양방향 순환 리스트를 초기화
-	temp = (node_ptr)malloc(sizeof(node_ptr));
+	temp = (node_ptr)malloc(sizeof(struct node));
 	if (!temp) {
 		printf("현재 사용 가능한 메모리가 없습니다. 프로그램을 중단합니다.\n");
 		exit(1);
@@ -81,7 +82,7 @@ node_ptr initialize() {
 			players[PLAYER2].current = temp; // ****하드 코딩됨****
 			temp->is_occupied_by = PLAYER2;
 		}
-		temp->right_node = (node_ptr)malloc(sizeof(node_ptr));
+		temp->right_node = (node_ptr)malloc(sizeof(struct node));
 		if (!(temp->right_node)) {
 			printf("현재 사용 가능한 메모리가 없습니다. 프로그램을 중단합니다.\n");
 			exit(1);
@@ -100,10 +101,6 @@ node_ptr initialize() {
 		setBombs(list);
 	}
 
-	terminate(list);
-
-	exit(0);
-
 	// 인트로 메세지를 출력
 	printMessage(INTROMESSAGE);
 
@@ -111,17 +108,16 @@ node_ptr initialize() {
 }
 
 void terminate(node_ptr list) {
-	int i;
 
-	printf("list의 주소: %p\n", list);
+	int i = 1;
+	node_ptr temp;
 
 	// free list
-	while (list) {
-		node_ptr temp = list;
-		printf("temp의 주소: %p\n", temp);
+	while (i <= SIZE) {
+		temp = list;
 		list = list->right_node;
-		printf("list의 주소: %p\n", list);
 		free(temp);
+		i++;
 	}
 }
 
@@ -174,6 +170,7 @@ void check_failure(int player) {
 	{
 		printf("   -> 플레이어 %d의 라이프가 0이 되었으므로 패배합니다.\n", player);
 		printf("   -> 축하합니다! 승자는 플레이어%d 입니다.\n\n", (player == 1) ? (2) : (1));
+		terminate(board);
 		exit(0);
 	}
 
@@ -182,6 +179,7 @@ void check_failure(int player) {
 	{
 		printf("   -> 플레이어 %d의 승리 횟수가 3이 되었으므로 승리합니다.\n", player);
 		printf("   -> 축하합니다! 승자는 플레이어%d 입니다.\n\n", player);
+		terminate(board);
 		exit(0);
 	}
 }
