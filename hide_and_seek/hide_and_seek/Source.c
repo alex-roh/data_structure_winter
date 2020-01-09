@@ -100,20 +100,27 @@ node_ptr initialize() {
 		setBombs(list);
 	}
 
+	terminate(list);
+
+	exit(0);
+
 	// 인트로 메세지를 출력
 	printMessage(INTROMESSAGE);
 
 	return list;
 }
 
-void terminate() {
+void terminate(node_ptr list) {
 	int i;
-	node_ptr temp;
+
+	printf("list의 주소: %p\n", list);
 
 	// free list
-	while (board != NULL) {
-		temp = board;
-		board = board->right_node;
+	while (list) {
+		node_ptr temp = list;
+		printf("temp의 주소: %p\n", temp);
+		list = list->right_node;
+		printf("list의 주소: %p\n", list);
 		free(temp);
 	}
 }
@@ -167,7 +174,7 @@ void check_failure(int player) {
 	{
 		printf("   -> 플레이어 %d의 라이프가 0이 되었으므로 패배합니다.\n", player);
 		printf("   -> 축하합니다! 승자는 플레이어%d 입니다.\n\n", (player == 1) ? (2) : (1));
-		exit(1);
+		exit(0);
 	}
 
 	// 승리 횟수가 3인 경우 
@@ -175,7 +182,7 @@ void check_failure(int player) {
 	{
 		printf("   -> 플레이어 %d의 승리 횟수가 3이 되었으므로 승리합니다.\n", player);
 		printf("   -> 축하합니다! 승자는 플레이어%d 입니다.\n\n", player);
-		exit(1);
+		exit(0);
 	}
 }
 

@@ -31,7 +31,7 @@ void printBoard();
 void game_logic();
 void setBombs(node_ptr list);
 void roll_the_dice(int* dice1, int* dice2);
-void terminate();
+void terminate(node_ptr list);
 void printMessage(int type);
 void move_player(int player, int movement);
 void debug();
