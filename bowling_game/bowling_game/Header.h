@@ -11,3 +11,4 @@ typedef struct score score;
 void debug();
 void initialize();
 void readFromInput();
+void inputError();

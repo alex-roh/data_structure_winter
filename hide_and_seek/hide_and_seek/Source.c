@@ -2,11 +2,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 #include "Header.h"
 
-struct node {
+struct node 
+{
 	int is_occupied_by;
-
 	node_ptr left_node;
 	node_ptr right_node;
 };
@@ -21,6 +22,7 @@ struct player {
 node_ptr board;                // 게임 보드
 char board_paint[SIZE + 1];     // 게임 보드 상태를 캐싱하는 배열
 struct player players[PLAYERS + 1];   // 플레이어
+int helper = 1;
 
 int main(void) {
 
@@ -73,14 +75,14 @@ node_ptr initialize() {
 		printf("현재 사용 가능한 메모리가 없습니다. 프로그램을 중단합니다.\n");
 		exit(1);
 	}
-	temp->is_occupied_by = PLAYER1;
+	temp->is_occupied_by = PLAYER1;  // 해당 노드에 플레이어 1을 위치시킴 
 	players[PLAYER1].current = temp; // ****하드 코딩됨**** 
 	list = temp;
 
 	for (i = 1; i < SIZE; i++) {
-		if (i == 3) {
+		if (i == 7) {
 			players[PLAYER2].current = temp; // ****하드 코딩됨****
-			temp->is_occupied_by = PLAYER2;
+			temp->is_occupied_by = PLAYER2;  // 해당 노드에 플레이어 2를 위치시킴
 		}
 		temp->right_node = (node_ptr)malloc(sizeof(struct node));
 		if (!(temp->right_node)) {
@@ -107,28 +109,13 @@ node_ptr initialize() {
 	return list;
 }
 
-void terminate(node_ptr list) {
-
-	int i = 1;
-	node_ptr temp;
-
-	// free list
-	while (i <= SIZE) {
-		temp = list;
-		list = list->right_node;
-		free(temp);
-		i++;
-	}
-}
-
 // 게임 메인 로직
 void game_logic()
 {
 	int player = 1;
 	int dice1, dice2, input;
-	int count = 1000;
 
-	while (count--) {
+	while (1) {
 
 		printf("   ----------------------------------------------------------\n\n");
 
@@ -159,20 +146,44 @@ void game_logic()
 
 		// 플레이어 순서를 변환 
 		(player == 1) ? (player = 2) : (player = 1);
+	}
 
+}
+
+void updataData(int count) {
+	FILE* fp;
+	fp = fopen(FILEPATH, "a");
+	char temp[MAX];
+
+	sprintf(temp, "%d %d %d %d %d\n", count, players[PLAYER1].life, players[PLAYER2].life,
+		players[PLAYER1].win, players[PLAYER2].win);
+	fputs(temp, fp);
+}
+
+void terminate(node_ptr list) {
+
+	int i = 1;
+	node_ptr temp;
+
+	// free list
+	while (i <= SIZE) {
+		temp = list;
+		list = list->right_node;
+		free(temp);
+		i++;
 	}
 }
 
 void check_failure(int player) {
 
 	// 라이프가 0인 경우 
-	if (players[player].life == -40)
-	{
-		printf("   -> 플레이어 %d의 라이프가 0이 되었으므로 패배합니다.\n", player);
-		printf("   -> 축하합니다! 승자는 플레이어%d 입니다.\n\n", (player == 1) ? (2) : (1));
-		terminate(board);
-		exit(0);
-	}
+	//if (players[player].life == 0)
+	//{
+	//	printf("   -> 플레이어 %d의 라이프가 0이 되었으므로 패배합니다.\n", player);
+	//	printf("   -> 축하합니다! 승자는 플레이어%d 입니다.\n\n", (player == 1) ? (2) : (1));
+	//	terminate(board);
+	//	exit(0);
+	//}
 
 	// 승리 횟수가 3인 경우 
 	if (players[player].win == 3)
@@ -187,7 +198,8 @@ void check_failure(int player) {
 void move_player(int player, int movement) {
 
 	if (players[player].current->is_occupied_by == TWOGETHER)
-		(player == 1) ? (players[player].current->is_occupied_by = PLAYER2) : (players[player].current->is_occupied_by = PLAYER1);
+		(player == 1) ? (players[player].current->is_occupied_by = PLAYER2)
+		: (players[player].current->is_occupied_by = PLAYER1);
 	else
 		players[player].current->is_occupied_by = NONE;
 
@@ -249,7 +261,10 @@ void debug()
 // 주사위를 던지는 함수
 void roll_the_dice(int* dice1, int* dice2) {
 
-	srand(time(NULL));
+	// 매 시행마다 값을 다르게 변동시키기 위한 코드
+	if (helper > 1000) { helper = 1; };
+
+	srand(time(NULL) * helper++);
 
 	*dice1 = (rand() % 6) + 1;
 	*dice2 = (rand() % 6) + 1;
@@ -313,6 +328,7 @@ void traverse() {
 	}
 
 }
+
 
 // 게임 보드를 출력
 void printBoard() {

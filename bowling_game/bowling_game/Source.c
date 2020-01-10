@@ -18,11 +18,12 @@ struct score
 };
 
 frame_ptr list;
-score test[MAX_FRAME + 1] = {8, 0, 4, 3, 8, 2, 4, 6, 2, 6,
+score s[MAX_FRAME + 1] = {8, 0, 4, 3, 8, 2, 4, 6, 2, 6,
 						  10, 0, 9, 0, 10, 0, 8, 2, 10, 0,
 						  10, 10};
-score s[MAX_FRAME + 1];
+score test[MAX_FRAME + 1];
 
+// 유저로부터 점수를 입력받는 함수
 void readFromInput() {
 
 	int i = 0, j = 0;
@@ -34,10 +35,12 @@ void readFromInput() {
 		for (j = 0; j < 2; j++) 
 		{
 			(i == MAX_FRAME) ?
-				(printf("보너스 프레임의 %d번째 점수를 입력해 주세요: ", 1)) : (printf("%d번째 프레임의 %d번째 점수를 입력해 주세요: ", i + 1, j + 1));
+				(printf("보너스 프레임의 %d번째 점수를 입력해 주세요: ", 1)) 
+				: (printf("%d번째 프레임의 %d번째 점수를 입력해 주세요: ", i + 1, j + 1));
 			scanf("%d", &input);
 			(j == 0) ? (s[i].first = input) : (s[i].second = input);	
 			fflush(stdin);
+			if (input > 10 || input < 0) { inputError(); return; }; // 입력 예외 처리
 		}
 		i++;
 	}
@@ -46,13 +49,21 @@ void readFromInput() {
 
 }
 
+void inputError() {
+	int i;
+	for (i = 0; i < MAX_FRAME + 1; i++) {
+		s[i].first = test[i].first;
+		s[i].second = test[i].second;
+	}
+}
+
 int main(void) {
 
 	int i = 0, sum = 0;
 	frame_ptr temp;
 
 	initialize();
-	readFromInput();
+	// readFromInput();
 
 	temp = list;
 
@@ -78,26 +89,30 @@ int main(void) {
 			temp->result = NONE;
 			sum += s[i].first + s[i].second;
 		}
+
 		switch (temp->result) 
 		{
 			case STRIKE:
-				printf("%d/%d : %d STRIKE!\n", s[i].first, s[i].second, sum);
+				printf("%d/%d : %d STRIKE!\n", temp->first, temp->second, sum);
 				break;
 
 			case SPARE:
-				printf("%d/%d : %d Spare\n", s[i].first, s[i].second, sum);
+				printf("%d/%d : %d Spare\n", temp->first, temp->second, sum);
 				break;
 
 			default:
-				printf("%d/%d : %d\n", s[i].first, s[i].second, sum);
+				printf("%d/%d : %d\n", temp->first, temp->second, sum);
 				break;
 		}
 		temp = temp->right_node;
 		i++;
 	}
 
+	// 보너스 프레임
+	temp->result = NONE;
 	if(s[MAX_FRAME].first != 0)
-		printf("(Bonus : %d, %d)\n", s[MAX_FRAME].first, s[MAX_FRAME].second);
+		printf("(Bonus : %d, %d)\n", (temp->first = s[MAX_FRAME].first),
+			(temp->second = s[MAX_FRAME].second));
 
 	printf("total : %d\n", sum);
 
@@ -112,7 +127,7 @@ void initialize() {
 	list = (frame_ptr)malloc(sizeof(struct frame));
 	temp = list;
 
-	for (i = 1; i < MAX_FRAME; i++) {
+	for (i = 0; i < MAX_FRAME; i++) {
 		temp->right_node = (frame_ptr)malloc(sizeof(struct frame));
 		temp = temp->right_node;
 	}
@@ -125,11 +140,14 @@ void debug() {
 	frame_ptr temp;
 	temp = list;
 
-	printf("%d\n", (temp->first = 0));
+	printf("\n");
 
-	for (i = 1; i < MAX_FRAME; i++) {
-		temp->first = i;
-		printf("%d\n", i);
+	for (i = 0; i < MAX_FRAME + 1; i++) {
+		printf("%d번째 노드의 first: %d, second: %d, result: %d\n",
+			i + 1, temp->first, temp->second, temp->result);
+		temp = temp->right_node;
 	}
 	
+	printf("\n");
+
 }
