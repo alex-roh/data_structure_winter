@@ -18,10 +18,10 @@ struct score
 };
 
 frame_ptr list;
-score s[MAX_FRAME + 1] = {8, 0, 4, 3, 8, 2, 4, 6, 2, 6,
+score test[MAX_FRAME + 1] = {8, 0, 4, 3, 8, 2, 4, 6, 2, 6,
 						  10, 0, 9, 0, 10, 0, 8, 2, 10, 0,
 						  10, 10};
-score test[MAX_FRAME + 1];
+score s[MAX_FRAME + 1];
 
 // 유저로부터 점수를 입력받는 함수
 void readFromInput() {
@@ -63,7 +63,7 @@ int main(void) {
 	frame_ptr temp;
 
 	initialize();
-	// readFromInput();
+	readFromInput();
 
 	temp = list;
 
@@ -90,6 +90,7 @@ int main(void) {
 			sum += s[i].first + s[i].second;
 		}
 
+		// 결과 출력
 		switch (temp->result) 
 		{
 			case STRIKE:
@@ -116,6 +117,9 @@ int main(void) {
 
 	printf("total : %d\n", sum);
 
+	// 동적 메모리 할당 해제
+	terminate();
+
 	return 0;
 }
 
@@ -132,6 +136,19 @@ void initialize() {
 		temp = temp->right_node;
 	}
 	
+}
+
+void terminate() {
+
+	int i;
+	frame_ptr temp;
+
+	for (i = 0; i < MAX_FRAME; i++) {
+		temp = list;
+		list = list->right_node;
+		free(temp);
+	}
+
 }
 
 void debug() {

@@ -12,3 +12,4 @@ void debug();
 void initialize();
 void readFromInput();
 void inputError();
+void terminate();
