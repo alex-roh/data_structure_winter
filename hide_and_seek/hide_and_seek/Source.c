@@ -150,16 +150,6 @@ void game_logic()
 
 }
 
-void updataData(int count) {
-	FILE* fp;
-	fp = fopen(FILEPATH, "a");
-	char temp[MAX];
-
-	sprintf(temp, "%d %d %d %d %d\n", count, players[PLAYER1].life, players[PLAYER2].life,
-		players[PLAYER1].win, players[PLAYER2].win);
-	fputs(temp, fp);
-}
-
 void terminate(node_ptr list) {
 
 	int i = 1;
@@ -177,13 +167,13 @@ void terminate(node_ptr list) {
 void check_failure(int player) {
 
 	// 라이프가 0인 경우 
-	//if (players[player].life == 0)
-	//{
-	//	printf("   -> 플레이어 %d의 라이프가 0이 되었으므로 패배합니다.\n", player);
-	//	printf("   -> 축하합니다! 승자는 플레이어%d 입니다.\n\n", (player == 1) ? (2) : (1));
-	//	terminate(board);
-	//	exit(0);
-	//}
+	if (players[player].life == 0)
+	{
+		printf("   -> 플레이어 %d의 라이프가 0이 되었으므로 패배합니다.\n", player);
+		printf("   -> 축하합니다! 승자는 플레이어%d 입니다.\n\n", (player == 1) ? (2) : (1));
+		terminate(board);
+		exit(0);
+	}
 
 	// 승리 횟수가 3인 경우 
 	if (players[player].win == 3)
