@@ -1,3 +1,4 @@
+void swap(int* first, int* second);
 
 void bubbleSortFaster(int *arr, int length) {
 
@@ -10,9 +11,8 @@ void bubbleSortFaster(int *arr, int length) {
 		for (j = 0; j < i; j++) {
 
 			if (arr[j] > arr[j + 1]) {
-				temp = arr[j];
-				arr[j] = arr[j + 1];
-				arr[j + 1] = temp;
+
+				swap(&arr[j], &arr[j + 1]);
 				flag = 1;
 			}
 		}
@@ -27,11 +27,8 @@ void bubbleSortSlower(int* arr, int length) {
 
 		for (j = 0; j < i; j++) {
 
-			if (arr[j] > arr[j + 1]) {
-				temp = arr[j];
-				arr[j] = arr[j + 1];
-				arr[j + 1] = temp;
-			}
+			if (arr[j] > arr[j + 1])
+				swap(&arr[j], &arr[j + 1]);
 		}
 	}
 

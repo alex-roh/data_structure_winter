@@ -1,7 +1,5 @@
 #define MAX 1000
 
-void printArr(const char* str);
-
 void merge(int *arr, int p, int q, int r) 
 {
 	int i, lst_end, length, pos;
@@ -31,9 +29,6 @@ void merge(int *arr, int p, int q, int r)
 	// copy temp into the original array
 	for (i = 0; i < length; i++)
 		arr[r] = temp[r--];
-
-	printArr("after merge");
-
 }
 
 void mergeSort(int *num, int p, int r) {

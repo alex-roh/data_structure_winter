@@ -1,3 +1,4 @@
+void swap(int* first, int* second);
 
 void maxHeapify(int *arr, int root, int length) {
 
@@ -17,9 +18,7 @@ void maxHeapify(int *arr, int root, int length) {
 	if (largest != root) {
 
 		// swap largest and root
-		int temp = arr[root];
-		arr[root] = arr[largest];
-		arr[largest] = temp;
+		swap(&arr[largest], &arr[root]);
 
 		// now largest is original root (one level down)
 		maxHeapify(arr, largest, length);
@@ -47,14 +46,9 @@ void heapSort(int* arr, int length) {
 	for (i = length; i > 1; i--) {
 
 		// swap the root and the last node
-		int temp = arr[0];
-		arr[0] = arr[heapSize - 1];
-		arr[heapSize - 1] = temp;
-
-		// minus heap size by 1
-		heapSize--;
+		swap(&arr[0], &arr[heapSize - 1]);
 
 		// make the current array into max heap
-		maxHeapify(arr, 0, heapSize);
+		maxHeapify(arr, 0, --heapSize); // minus heap size by 1
 	}
 }

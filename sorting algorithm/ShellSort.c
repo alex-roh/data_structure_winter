@@ -1,24 +1,25 @@
 
 void shellSort(int* arr, int length) {
 
-	int i, j, gap, next;
+	int i, j, gap, key;
 
 	for (gap = length / 2; gap > 0; gap /= 2) {
 
-		if (gap % 2 == 0) gap++;
-
+		if (gap % 2 == 0) gap++; // determine 'gap', which should be the odd number
+		
+		// it's just a plain insertion sort, but we use 'gap' to compare distant elements
 		for (i = gap; i < length; i++) {
 			
-			next = arr[i];
+			key = arr[i]; // key -> current item to be sorted
 
 			for (j = i; j >= gap; j -= gap) {
-				if (next < arr[j - gap])
+				if (key < arr[j - gap])
 					arr[j] = arr[j - gap];
 				else
 					break;
 			}
 
-			arr[j] = next;
+			arr[j] = key;
 		}
 	}
 

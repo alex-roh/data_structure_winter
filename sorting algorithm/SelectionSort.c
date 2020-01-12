@@ -1,3 +1,4 @@
+void swap(int* first, int* second);
 
 void selectionSortMax(int* arr, int length) {
 
@@ -10,10 +11,8 @@ void selectionSortMax(int* arr, int length) {
 		for (j = 0; j < i; j++)
 			if (arr[j] > arr[max])	
 				max = j;
-			
-		temp = arr[j - 1];
-		arr[j - 1] = arr[max];
-		arr[max] = temp;
+		
+		swap(&arr[j - 1], &arr[max]); // j - 1, because we did 'j++' in the loop above
 	}
 
 }
@@ -26,12 +25,10 @@ void selectionSortMin(int* arr, int length) {
 	{
 		min = i;
 
-		for (j = i + 1; j < length; j++)
+		for (j = i + 1; j < length; j++) // j = i + 1, because min has to be the first element
 			if (arr[j] < arr[min])
 				min = j;
 
-		temp = arr[i];
-		arr[i] = arr[min];
-		arr[min] = temp;
+		swap(&arr[i], &arr[min]);
 	}
 }

@@ -19,15 +19,17 @@ void printArr(const char* str) {
 	printf("\n");
 }
 
+void swap(int* first, int* second) {
+	
+	int temp = *first;
+	*first = *second;
+	*second = temp;
+
+}
+
 int main(void) {
 
-	//printArr("before buildMaxHeap");
-	//buildMaxHeap(arr, length);
-	//printArr("After buildMaxHeap");
 
-	printArr("before heapSort");
-	heapSort(arr, length);
-	printArr("after heapSort");
 
 	return 0;
 }

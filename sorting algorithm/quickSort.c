@@ -1,17 +1,18 @@
 #include <time.h>
 
+void swap(int* first, int* second);
+
 // partition using additional array
 int partitionAdd(int* arr, int p, int r) {
 
 	int i, j, k, pivot;
-	int* temp = (int*)malloc(sizeof(int) * (r + 1));
+	int* temp = (int*)malloc(sizeof(int) * (r + 1)); // dynamic allocation to the additional array
 	
-	pivot = arr[p];
-	
+	pivot = arr[p]; // pivot -> first element
 	i = p;
 	j = r;
 
-	for (k = p + 1; k <= r; k++) 
+	for (k = p + 1; k <= r; k++) // k -> cursor
 	{
 		if (arr[k] < pivot) {
 			temp[i++] = arr[k];
@@ -21,8 +22,9 @@ int partitionAdd(int* arr, int p, int r) {
 		}
 	}
 
-	temp[i] = pivot;
-	for (k = p; k <= r; k++)
+	temp[i] = pivot; // i -> after the loop, 'i' becomes the pivot position
+
+	for (k = p; k <= r; k++) // copy
 		arr[k] = temp[k];
 
 	free(temp);
@@ -40,21 +42,15 @@ int partitionInPlace(int *arr, int p, int r) {
 
 	do {
 
-		while (i <= r && arr[i] < arr[pivot]) i++;
-		while (j >= p && arr[j] > arr[pivot]) j--;
+		while (i <= r && arr[i] < arr[pivot]) i++; // larger than the pivot
+		while (j >= p && arr[j] > arr[pivot]) j--; // smaller than the pivot
 
 		if (i < j) 
-		{
-			temp = arr[i];
-			arr[i] = arr[j];
-			arr[j] = temp;
-		}
+			swap(&arr[i], &arr[j]);
 
 	} while (i < j);
 
-	temp = arr[p];
-	arr[p] = arr[j];
-	arr[j] = temp;
+	swap(&arr[p], &arr[j]); // change the pivot position
 
 	return j;
 }
@@ -65,9 +61,7 @@ int randomizedPartition(int *arr, int p, int r) {
 	srand(time(NULL));
 	int i, j, pivot, temp;
 	pivot = (rand() % (r - p + 1)) + p;
-	temp = arr[pivot];
-	arr[pivot] = arr[p];
-	arr[p] = temp;
+	swap(&arr[pivot], &arr[p]);
 
 	return partitionInPlace(arr, p, r);
 }
@@ -78,26 +72,22 @@ int partitionEasy(int *arr, int p, int r) {
 	int pivot, i, cursor, temp;
 
 	pivot = arr[r];
-	i = p - 1; // there is yet no element less than the pivot
+	i = p - 1; // there is yet no element smaller than the pivot
 	cursor = 0;
 	temp = 0;
 
 	for (cursor = p; cursor < r; cursor++) {
 
 		if (arr[cursor] <= pivot) {
-			// we found an element less than the pivot
+			// we found an element smaller than the pivot
 			i++; // so, increase i by 1
-			temp = arr[i];
-			arr[i] = arr[cursor];
-			arr[cursor] = temp;
+			swap(&arr[i], &arr[cursor]);
 		}
 	}
 
-	// index (i + 1) means the first element not less than the pivot
+	// index (i + 1) means the first element not smaller than the pivot
 	// so, we swap arr[i + 1] and arr[r](pivot)
-	temp = arr[i + 1];
-	arr[i + 1] = arr[r];
-	arr[r] = temp;
+	swap(&arr[i + 1], &arr[r]);
 
 	return i + 1;
 }
