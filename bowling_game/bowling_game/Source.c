@@ -18,6 +18,7 @@ struct score
 };
 
 frame_ptr list;
+// 입력 예외가 발생할 경우 사용할 기본 데이터
 score test[MAX_FRAME + 1] = {8, 0, 4, 3, 8, 2, 4, 6, 2, 6,
 						  10, 0, 9, 0, 10, 0, 8, 2, 10, 0,
 						  10, 10};
@@ -119,6 +120,8 @@ int main(void) {
 
 	// 동적 메모리 할당 해제
 	terminate();
+
+	system("pause");
 
 	return 0;
 }

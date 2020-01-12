@@ -31,6 +31,7 @@ int main(void) {
 	printBoard();
 	game_logic();
 	terminate(board);
+	system("pause");
 	return 0;
 }
 
@@ -172,6 +173,7 @@ void check_failure(int player) {
 		printf("   -> 플레이어 %d의 라이프가 0이 되었으므로 패배합니다.\n", player);
 		printf("   -> 축하합니다! 승자는 플레이어%d 입니다.\n\n", (player == 1) ? (2) : (1));
 		terminate(board);
+		system("pause");
 		exit(0);
 	}
 
@@ -181,6 +183,7 @@ void check_failure(int player) {
 		printf("   -> 플레이어 %d의 승리 횟수가 3이 되었으므로 승리합니다.\n", player);
 		printf("   -> 축하합니다! 승자는 플레이어%d 입니다.\n\n", player);
 		terminate(board);
+		system("pause");
 		exit(0);
 	}
 }
