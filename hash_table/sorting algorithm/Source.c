@@ -21,8 +21,13 @@ void printArr(const char* str) {
 
 int main(void) {
 
-	mergeSort(arr, 0, length - 1);
-	printArr("mergeSort");
+	//printArr("before buildMaxHeap");
+	//buildMaxHeap(arr, length);
+	//printArr("After buildMaxHeap");
+
+	printArr("before heapSort");
+	heapSort(arr, length);
+	printArr("after heapSort");
 
 	return 0;
 }
