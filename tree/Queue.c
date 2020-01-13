@@ -5,8 +5,7 @@
 #define INIT_CAPACITY 100
 
 struct queue_type {
-	// 큐로 사용할 배열 (포인터로 선언하여 동적 메모리 사용)
-	Item* contents;
+	Item* contents; // 큐로 사용할 배열 (포인터로 선언하여 동적 메모리 사용)
 	int front;
 	int rear;
 	int size;     // 저장된 데이터의 개수
@@ -46,22 +45,22 @@ void destoryQueue(Queue q) {
 }
 
 // 큐를 비운다.
-void make_empty_Queue(Queue q) {
+void make_empty_queue(Queue q) {
 	q->front = 0;
 	q->rear = -1;
 	q->size = 0;
 }
 
-bool is_empty_Queue(Queue q) {
+bool is_empty_queue(Queue q) {
 	return q->size == 0;
 }
 
-bool is_full(Queue q) {
+bool is_full_queue(Queue q) {
 	return (q->size == q->capacity);
 }
 
 void enqueue(Queue q, Item i) {
-	if (is_full(q))
+	if (is_full_queue(q))
 		reallocate(q);
 	// rear를 앞으로 한 칸 전진시킨다
 	q->rear = (q->rear + 1) % (q->capacity);
@@ -70,8 +69,8 @@ void enqueue(Queue q, Item i) {
 }
 
 Item dequeue(Queue q) {
-	if (is_empty(q))
-		terminate("Error in dequeue: queue is empty.");
+	if (is_empty_queue(q))
+		return NULL;
 	// 현재 front에 있는 값을 반환
 	Item result = q->contents[q->front];
 	// front를 앞으로 한 칸 전진시킨다
@@ -81,7 +80,7 @@ Item dequeue(Queue q) {
 }
 
 Item peekQueue(Queue q) {
-	if (is_empty(q))
-		terminate("Error in peek: queue is empty.");
+	if (is_empty_queue(q))
+		return NULL;
 	return q->contents[q->front];
 }

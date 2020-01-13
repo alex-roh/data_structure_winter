@@ -15,5 +15,6 @@ void postOrder(node_ptr ptr);
 void inOrder(node_ptr ptr);
 void preOrder(node_ptr ptr);
 void iterativeInorder(node_ptr ptr);
+void levelOrder(node_ptr ptr);
 
 #endif

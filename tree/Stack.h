@@ -9,11 +9,11 @@ typedef struct stack_type* Stack; // 구조체 stack_type의 포인터를
 																	// Stack이라는 이름으로 정의
 																	// 코드 안에 * 연산자를 사용할 일 X
 Stack createStack();
-void destroy(Stack s);
-void make_empty(Stack s);
-bool is_empty(Stack s);
+void destroyStack(Stack s);
+void make_empty_stack(Stack s);
+bool is_empty_stack(Stack s);
 void push(Stack s, Item i);
 Item pop(Stack s);
-Item peek(Stack s);
+Item peekStack(Stack s);
 
 #endif

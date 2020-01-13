@@ -30,6 +30,29 @@ void preOrder(node_ptr ptr) {
 	}
 }
 
+void levelOrder(node_ptr ptr) {
+
+	if (!ptr) return;
+	Queue queue = createQueue();
+
+	enqueue(queue, ptr);
+	while (1) {
+
+		ptr = dequeue(queue);
+		if (ptr) 
+		{
+			printf("%c ", ptr->data);
+			if (ptr->left) enqueue(queue, ptr->left);
+			if (ptr->right) enqueue(queue, ptr->right);
+		}
+		else break;
+
+	}
+
+	destoryQueue(queue);
+
+}
+
 void iterativeInorder(node_ptr ptr) {
 
 	Stack stack = createStack();
@@ -43,5 +66,7 @@ void iterativeInorder(node_ptr ptr) {
 		printf("%c ", ptr->data);
 		ptr = ptr->right;
 	}
+
+	destroyStack(stack);
 
 }

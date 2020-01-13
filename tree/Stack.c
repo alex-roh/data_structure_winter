@@ -44,37 +44,40 @@ void reallocate(Stack s) {
 	s->size *= 2;
 }
 
-void destroy(Stack s) {
+void destroyStack(Stack s) {
 	free(s->contents);
 	free(s);
 }
 
+bool is_full_stack(Stack s) {
+	return (s->top == s->size - 1);
+}
+
 void push(Stack s, Item i) {
-	if (is_full(s))
+	if (is_full_stack(s))
 		reallocate(s);
 	s->top++;
 	s->contents[s->top] = i;
 }
 
 Item pop(Stack s) {
-	if (is_empty(s))
+	if (is_empty_stack(s))
 		return NULL;
-		// terminate("Error in pop: stack is empty.");
 	s->top--;
 	return s->contents[s->top + 1];
 }
 
-Item peek(Stack s) {
-	if (is_empty(s))
-		terminate("Error in peek: stack is empty.");
+Item peekStack(Stack s) {
+	if (is_empty_stack(s))
+		return NULL;
 	return s->contents[s->top];
 }
 
 // 스택을 재사용하기 위한 함수
-void make_empty(Stack s) {
+void make_empty_stack(Stack s) {
 	s->top = -1;
 }
 
-bool is_empty(Stack s) {
+bool is_empty_stack(Stack s) {
 	return (s->top == -1);
 }

@@ -39,7 +39,7 @@ void make_tree() {
 int main(void) {
 
 	make_tree();
-	iterativeInorder(tree);
+	levelOrder(tree);
 	printf("\n");
 
 	return 0;
